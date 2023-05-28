@@ -1,0 +1,171 @@
+ FROM --> It is used to define base image for our own dockerimage.
+
+ex: FROM node:16-alpine3.11
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.MAINTAINER: We can set (owner) who is owning this image
+ex: MAINTAINER sheshadri
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.COPY--> using copy we can copy local files/foleders to the image (from system where we are bulindg the image.
+
+what type of files --> regular files
+sysntax:
+----------
+copy <source>[that should be in under dir/subdir] <destination>[in that image where u want to copy]
+* COPY . . [1st dot is current dir , 2nd dot represntes
+
+COPY  target/maven-weba-application.war /usr/local
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.ADD---> add also can copy files to the image.
+
+ex: ADD <sourcepath> <Des>
+ADD <sourceurl> <des>
+
+ex:: ADD https:/mirros.estointernet.in/tomcat-8/
+
+*if you coping the tr files using add it will add the tar file to the image and also it ill extract tart file in the imge.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+DIFF B/W COPY AND ADD
+-----------------------------------
+add can copy local files and also files from remote https locations.
+
+*copy it will copy only the local files.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5.RUN ::  using run we can run any command on top of the previou layaer or image.
+
+*These RUN commands will be excuted while creating an image.
+
+ex: for an example we can install required packages while cretaing an image.
+
+*we can have n number of RUN instructions.will process all the instructions from top to bottom
+
+===========================================================================================================================================================
+
+6.CMD:: using CMD also we can run commnds.
+
+CMD ["catalina.sh" "run"]
+
+What is diff b/w RUN & CMD
+------------------------------------
+CMD instrction or command will excute the commnd while creting orstarting . the container.
+
+*This is used to run a application( process).
+
+*can we have more than one CMD in DF
+-------------------------------------------------
+we can have more than one CMD ins .but docker will use only one CMD( it will excute recent one/last cmd in the order)
+
+
+RUN:: refer above [ these commands will excuted while builng or creting the image] 
+
+===========================================================================================================================================================
+
+7.ENTRYPOINT
+---------------------
+we can set ENTRYPOINT for the container.we can run commands using ENTRYPOINT.ENTRYPOINT commands will be excuted while sarting the container.
+
+
+DIFF b/w entrypoint and cmd
+-------------------------------------
+CMD:: commnds/ins can be overriden at run time( while creting a container).
+
+Entrpint: we can't overwrite the commnds.
+
+
+
+How to see layers of the image
+--------------------------------------------
+docker inspect <imageNmae/Id>
+docker history    '''''''
+
+
+example
+------------
+FROM centos
+
+Run echo "RunOne"
+
+RUN mkdir .opt/app
+
+RUN yum install git -y
+
+RUN echo " RunTwo"
+
+ENTRYPOINT ["echo","welcome"]
+
+=======================================
+
+LABEL:: lables are key-value pairs
+
+* we can add or (attach) a lable to the image.
+
+
+====================================
+
+ARG:: Argument we can pass arguemts to the docker build.we can define arg in docker file this args can be refferd in docker file.
+
+=====================================
+
+ENV:: Key-value pair. we can set an environmnt varibales for image/con
+
+ENV JAV_HOME /usr/bin/java
+
+ENV TOMCAT_HOME /usr/local/tomcat
+
+=======================================
+
+EXPOSE:  we can define on which port container will listen. its kind of documention for people who is going to use the image.
+
+EXPOSE 8080
+
+====================================
+
+USER: we can set user for an image/con .so the container process will be running as that user insted of root user.
+
+Ex:: USER jenkins
+
+RUN useradd jenkins
+
+=====================================
+
+VOLUME:: container file system exist as long as container exist.
+
+*vol will mount container dir wth host machine filesystem.
+
+VOLUME /data/db
+
+/var/lib/docker/volumes/fafda
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
