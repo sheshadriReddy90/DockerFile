@@ -1,0 +1,87 @@
+how to trigger a job in jenins
+------------------------------------
+1.POLL SCM
+
+2.Build Periadically
+
+3.Githubwebahook
+
+
+
+
+
+
+Githubwebhook
+==============
+
+1.select guthub webhook from jenkisn dashboadrd
+
+2.select the job path/github-webhook/
+
+3.goto github repo whih is used for creting ur job
+
+4.click on settings
+
+5.select webhooks
+
+6.add webhook
+
+7.payload url :: giv ur job url
+
+8.content type: application/json
+
+9.send me evrything
+
+10. select wht ever u want from this
+
+11.refresh it 
+
+12.go jenkins dashboard
+
+13.go to hutb and select ur repo made some chamges in any file & save it
+
+
+To Install Maven ---> maven integration plugin
+
+
+
+*using free style job we can crete the job for any language
+
+*maven is working for only java projects and maven as a build tool only.
+
+
+scripted way
+----------------
+
+diff b/w freestyle, maven and pipeline
+------------------------------------------------
+we need write pipeline script. flexibilty to intergare with other tools.
+
+*integrate with other  tools is easy.
+
+*we can write our own scripts
+
+node {  ---> represents where your code need to excuted , by default it will excute in master .
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
