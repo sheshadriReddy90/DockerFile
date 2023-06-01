@@ -1,39 +1,118 @@
- FROM --> It is used to define base image for our own dockerimage.
 
-ex: FROM node:16-alpine3.11
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-2.MAINTAINER: We can set (owner) who is owning this image
-ex: MAINTAINER sheshadri
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-3.COPY--> using copy we can copy local files/foleders to the image (from system where we are bulindg the image.
+DOCKERFILE
+-------------------
+*Its a  file using which we can crete a docker image. In dcker file we are going write instructions to crete an image quickly.
 
-what type of files --> regular files
-sysntax:
+*In docker file we are going to use docker DSL(Domin specific language). 
+
+*keywords/directivtives
+
+Somekey words are
+-------------------------
+1.From
+
+2.Maintainer
+
+3.COPY
+
+4.ADD
+
+5.RUN
+
+6.CMD
+
+7.ENTRYPOINT
+
+8.LABEL
+
+9.ARG
+
+10.ENV
+
+11.WORKDIR
+
+12.USER
+
+13.EXPOSE
+
+14.USER
+
+15.VOLUME
+
+DOCKER IMAGE:
+-----------------------
+It's  an excutable package which contains everything (app code and it's dependecies) such as softwares, configurations, env, vars etc.) which is required to run a piece of code.
+
+SAMPLE EXAMPLE
+-------------------------
+
+1.FROM <ImageTag> 
+--------------------------
+It's an base image using which we are creating our image.
+
+Example:: FROM Nginx
+
+2.MAINTAINER
+--------------------
+Who is owner of this  docker file.
+
+EX:: MAINTAINER <sheshadri@gamil.com>
+-----
+
+3.COPY
+-----------
+Using copy we can copy local files  files/folders from system  where we re builng the image,(Local system) to the image. 
+
+*what type of files we can copy regular files
+
+ex:: COPY <Source> <Destination>
+
+Source --> The file is in our  system [ under dir/sub-dir]
+
+it is should in be part of our build context only.
+
+Destination ---> in which dir u want to copy
+
+example:: sheshu/file/
+     or
+
+COPY . . 
+
+1st represents ---> current dir
+
+2nd dot represnts -->  current dir of our image
+
+
+
+4.ADD
 ----------
-copy <source>[that should be in under dir/subdir] <destination>[in that image where u want to copy]
-* COPY . . [1st dot is current dir , 2nd dot represntes
+ADD also we can copy files to the image.
 
-COPY  target/maven-weba-application.war /usr/local
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+*if we are  copying tar files using add.it will add the file and extract the file also. file should be end with .tar file.
 
-4.ADD---> add also can copy files to the image.
 
-ex: ADD <sourcepath> <Des>
-ADD <sourceurl> <des>
+* There is two ways of defining the add
+------------------------------------------------
+ADD <Sourcepath> <Des> 
+ex:: ADD sheshadri/var/lib/
 
-ex:: ADD https:/mirros.estointernet.in/tomcat-8/
+ADD <SourceUrl> <Des>
+ex:: https://mirrros.estointernent.in//    /opt/tomact.tar.gz
 
-*if you coping the tr files using add it will add the tar file to the image and also it ill extract tart file in the imge.
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
+
 DIFF B/W COPY AND ADD
 -----------------------------------
-add can copy local files and also files from remote https locations.
+* add can copy local files and also files from remote https locations.
 
 *copy it will copy only the local files.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+EXAMPLE
+--------------
+FROM tomact:8.0.20-jre8
+
+COPY target/java-web-app*.war /usr/local/tomcat/webapps/java-web-app.tar
+
 
 5.RUN ::  using run we can run any command on top of the previou layaer or image.
 
@@ -41,17 +120,23 @@ add can copy local files and also files from remote https locations.
 
 ex: for an example we can install required packages while cretaing an image.
 
-*we can have n number of RUN instructions.will process all the instructions from top to bottom
+*we can have n number of RUN instructions.will process all the instructions from top to bottom.
 
-===========================================================================================================================================================
+ex:: RUN Yum install docker -y
 
-6.CMD:: using CMD also we can run commnds.
 
-CMD ["catalina.sh" "run"]
+6.CMD
+--------------
+Uinsg cmd also we can run command.
+
+ex:: CMD ["java","-jar","spring-boot-mongo.jar"]
+
+CMD ["sh" ,"abc.sh"]
+CMD ["date"]
 
 What is diff b/w RUN & CMD
 ------------------------------------
-CMD instrction or command will excute the commnd while creting orstarting . the container.
+CMD instrction or command will excute the commnd while creting  the container.
 
 *This is used to run a application( process).
 
@@ -59,10 +144,6 @@ CMD instrction or command will excute the commnd while creting orstarting . the 
 -------------------------------------------------
 we can have more than one CMD ins .but docker will use only one CMD( it will excute recent one/last cmd in the order)
 
-
-RUN:: refer above [ these commands will excuted while builng or creting the image] 
-
-===========================================================================================================================================================
 
 7.ENTRYPOINT
 ---------------------
@@ -75,16 +156,8 @@ CMD:: commnds/ins can be overriden at run time( while creting a container).
 
 Entrpint: we can't overwrite the commnds.
 
-
-
-How to see layers of the image
---------------------------------------------
-docker inspect <imageNmae/Id>
-docker history    '''''''
-
-
-example
-------------
+EXAMPLE
+------------------
 FROM centos
 
 Run echo "RunOne"
@@ -93,30 +166,60 @@ RUN mkdir .opt/app
 
 RUN yum install git -y
 
-RUN echo " RunTwo"
+RUN echo " RunTwo".
 
 ENTRYPOINT ["echo","welcome"]
 
-=======================================
+Build Cache
+-----------------
+if their is alredy layred creted it is going that layer.
 
-LABEL:: lables are key-value pairs
+How to see layers of the image
+--------------------------------------------
+docker inspect <imageNmae/Id>
+docker history    '''''''
 
+docker build -t <imagename> .
+
+docker build --no-cache -t <imagename> .
+
+we can override cmd while building the image
+----------------------------------------------------------
+docker  run <imageone> <command>
+
+
+8.LABEL:: lables are key-value pairs
+------------
 * we can add or (attach) a lable to the image.
 
+9.ARG:: Argument we can pass arguemts to the docker build.we can define arg in docker file this args can be refferd in docker file.
 
-====================================
+example
+-------------
+FROM tomcat:8--jdk-8-temurin
+ARG baranchNmae=develop
+Label baranchNmae ${brachNmae}
+Label team mithun
+Label temdl
+copy target/maven-weba-app *.war /usr/locl/
 
-ARG:: Argument we can pass arguemts to the docker build.we can define arg in docker file this args can be refferd in docker file.
+Too pass arguments
+------------------------
+docker build --build-arg -t image_name .
 
-=====================================
 
-ENV:: Key-value pair. we can set an environmnt varibales for image/con
+
+
+9.ENV:: Key-value pair. we can set an environmnt varibales for image/con
 
 ENV JAV_HOME /usr/bin/java
 
 ENV TOMCAT_HOME /usr/local/tomcat
 
-=======================================
+ENV PATH ${Path}
+
+
+*don't use yum ,sysstemctl in dockerfile
 
 EXPOSE:  we can define on which port container will listen. its kind of documention for people who is going to use the image.
 
